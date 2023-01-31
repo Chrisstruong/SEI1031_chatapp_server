@@ -1,3 +1,4 @@
 module.exports = {
-    Member: require('./Member')
+    Member: require('./Member'),
+    User: require('./User')
 }
