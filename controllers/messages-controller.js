@@ -45,6 +45,7 @@ router.get('/detail/:id', async(req, res)=>{
 
 router.put('/detail/:id', requireToken, async(req, res)=> {
     try{
+        handleValidateOwnership(req, await Message.findById(req.params.id))
         const updatedMessage = await Message.findByIdAndUpdate(req.params.id, req.body, {new:true})
         res.status(200).json(updatedMessage)
     } catch(err) {
@@ -54,6 +55,7 @@ router.put('/detail/:id', requireToken, async(req, res)=> {
 
 router.delete('/detail/:id', requireToken, async(req, res)=> {
     try{
+        handleValidateOwnership(req, await Message.findById(req.params.id))
         res.json(await Message.findByIdAndRemove(req.params.id))
     } catch(err){
         res.status(400).json(err)
