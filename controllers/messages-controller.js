@@ -1,10 +1,14 @@
 const router = require('express').Router()
 const Message = require('../models/Message')
 
+const {handleValidateOwnership, requireToken} = require('../middleware/auth')
+
 // add
-router.post("/", async(req, res)=> {
+router.post("/", requireToken,async(req, res)=> {
     const newMessage = new Message(req.body)
     try {
+        const owner = req.user._id
+        req.body.owner = owner
         const savedMessage = await newMessage.save()
         res.status(200).json(savedMessage)
     }catch (err){
@@ -25,7 +29,7 @@ router.get("/:conversationId", async(req, res)=>{
 
 router.get('/', async(req, res)=>{
     try{
-        res.json(await Message.find({}))
+        res.json(await Message.find({}).populate('owner', 'username -_id').exec())
     } catch(error){
         res.status(400).json(error)
     }
@@ -39,7 +43,7 @@ router.get('/detail/:id', async(req, res)=>{
     }
 })
 
-router.put('/detail/:id', async(req, res)=> {
+router.put('/detail/:id', requireToken, async(req, res)=> {
     try{
         const updatedMessage = await Message.findByIdAndUpdate(req.params.id, req.body, {new:true})
         res.status(200).json(updatedMessage)
@@ -48,7 +52,7 @@ router.put('/detail/:id', async(req, res)=> {
     }
 })
 
-router.delete('/detail/:id', async(req, res)=> {
+router.delete('/detail/:id', requireToken, async(req, res)=> {
     try{
         res.json(await Message.findByIdAndRemove(req.params.id))
     } catch(err){
