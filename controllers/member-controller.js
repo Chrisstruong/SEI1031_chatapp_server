@@ -34,7 +34,9 @@ router.post("/", async(req, res)=>{
 // user update route
 router.put('/:id', async(req, res)=>{
     try {
-        res.json(await Member.findByIdAndUpdate(req.params.id, req.body, {new:true}))
+        // res.json(await Member.findByIdAndUpdate(req.params.id, req.body, {new:true}))
+        const updatedMember = await Member.findByIdAndUpdate(req.params.id, req.body, {new:true})
+        res.status(200).json(updatedMember)
     } catch(error){
         res.status(400).json(error)
     }

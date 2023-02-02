@@ -21,10 +21,36 @@ router.get('/:userId',async (req, res)=>{
         const conversation = await Conversation.find({
             members: {$in:[req.params.userId]}, 
         })
+        // res.status(200).json(conversation)
         res.status(200).json(conversation)
     } catch(err){
         res.status(500).json(err)
     }
 })
+
+router.get('/', async (req, res)=> {
+    try{
+        res.json(await Conversation.find({}))
+    } catch(error) {
+        res.status(400).json(error)
+    }
+})
+
+router.get('/detail/:id', async(req, res)=> {
+    try{
+        res.json(await Conversation.findById(req.params.id))
+    } catch(error){
+        res.status(400).json(error)
+    }
+})
+
+router.delete('/delete/:id', async(req, res)=>{
+    try{
+        res.json(await Conversation.findByIdAndRemove(req.params.id))
+    } catch(error){
+        res.status(400).json(error)
+    }
+})
+
 
 module.exports = router;
