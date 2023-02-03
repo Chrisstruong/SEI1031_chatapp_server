@@ -11,6 +11,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    avatarImage:{
+      type:String,
+    }
   },
   {
     timestamps: true,

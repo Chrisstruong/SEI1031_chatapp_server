@@ -62,28 +62,4 @@ router.delete('/detail/:id', requireToken, async(req, res)=> {
     }
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// delete route (This is special because you need to find a way to delete Object Id)
-// router.delete('/:conversationId', async(req, res)=> {
-//     try{
-//         const deletedMessage = await Message.findOneAndDelete({conversationId: req.params.conversationId})
-//         res.status(200).json({message: "yes"})
-//     }catch (err){
-//         res.status(400).json({error: err});
-//     }
-// })
-
 module.exports = router;
